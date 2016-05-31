@@ -72,3 +72,43 @@ tap.test('fails if SES fails', test => {
 		}
 	});
 });
+
+tap.test('calls SES compiling nunjucks templates', test => {
+	lambda({
+		events: {
+			from: 'source',
+			to: ['one', 'two'],
+			subject: 'something',
+			template: 'compiled {{ name }}',
+			env: {
+				name: 'nunj'
+			}
+		},
+		ses: {
+			sendEmail (data, callback) {
+				test.deepEqual(data, {
+					Source: 'source',
+					Destination: {
+						ToAddresses: ['one', 'two']
+					},
+					Message: {
+						Subject: {
+							Data: 'something'
+						},
+						Body: {
+							Html: {
+								Data: 'compiled nunj',
+								Charset: 'utf8'
+							}
+						}
+					}
+				});
+				callback();
+			}
+		},
+		callback: (err) => {
+			test.ifError(err);
+			test.end();
+		}
+	});
+});

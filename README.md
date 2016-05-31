@@ -5,7 +5,7 @@ Send email using SES
 You can call this Lambda from another Lambda or application.
 
 ```js
-var lambda = new AWS.Lambda();
+const lambda = new AWS.Lambda();
 lambda.invoke({
     FunctionName: 'this-lmabda-function-name',
     InvocationType: 'Event',
@@ -19,6 +19,28 @@ lambda.invoke({
 ```
 
 The code above will execute the Lambda asynchronously. If you want to know whether the email was sent or not, you can use `InvocationType: RequestResponse`.
+
+
+### Templating
+
+By default the lambda expects an email body, but you can also use [nunjucks templates](http://mozilla.github.io/nunjucks/).
+
+```js
+const lambda = new AWS.Lambda();
+lambda.invoke({
+    FunctionName: 'this-lmabda-function-name',
+    InvocationType: 'Event',
+    Payload: JSON.stringify({
+        from: 'source@email.com',
+        to: ['destination@email.com', 'another@email.com'],
+        subject: 'Automated email',
+        template: 'Hello {{ name }}!',
+        env: {
+            name: 'World'
+        }
+    })
+}, callback);
+```
 
 
 ### Unit tests

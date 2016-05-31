@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import nunjucks from 'nunjucks';
 
 const sesClient = new AWS.SES();
 
@@ -35,15 +36,25 @@ function generateEmail (data) {
 	});
 }
 
-function validateInput ({from, to, subject, body}) {
-	if (!from || !to || !subject || !body) {
+function validateInput ({from, to, subject, body, template, env}) {
+	if (!from || !to || !subject) {
 		return Promise.reject(new Error('Missing or invalid parameters'));
-	} else {
+	} else if (body) {
 		return Promise.resolve({
 			from,
 			to: typeof to === 'string' ? [to] : to,
 			subject,
 			body
 		});
+	} else if (template && env) {
+		nunjucks.configure({ autoescape: true });
+		return Promise.resolve({
+			from,
+			to: typeof to === 'string' ? [to] : to,
+			subject,
+			body: nunjucks.renderString(template, env)
+		});
+	} else {
+		return Promise.reject(new Error('Missing or invalid parameters'));
 	}
 }
