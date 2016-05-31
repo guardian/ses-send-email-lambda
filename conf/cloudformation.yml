@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Send email using SES
+Parameters:
+    Stack:
+        Description: Stack name
+        Type: String
+        Default: cms-fronts
+    App:
+        Description: Application name
+        Type: String
+        Default: send-email-lambda
+    DeployBucket:
+        Description: Bucket where RiffRaff uploads artifacts on deploy
+        Type: String
+        Default: facia-dist
+    EmailFrom:
+        Description: Email address used to send email with SES
+        Type: String
+Resources:
+    ExecutionRole:
+        Type: AWS::IAM::Role
+        Properties:
+            AssumeRolePolicyDocument:
+                Statement:
+                    - Effect: Allow
+                      Principal:
+                        Service:
+                            - lambda.amazonaws.com
+                      Action: "sts:AssumeRole"
+            Path: /
+            Policies:
+                - PolicyName: logs
+                  PolicyDocument:
+                    Statement:
+                        Effect: Allow
+                        Action:
+                            - "logs:CreateLogGroup"
+                            - "logs:CreateLogStream"
+                            - "logs:PutLogEvents"
+                        Resource: "arn:aws:logs:*:*:*"
+                - PolicyName: lambda
+                  PolicyDocument:
+                    Statement:
+                        Effect: Allow
+                        Action:
+                            - "lambda:InvokeFunction"
+                        Resource: "*"
+                - PolicyName: sendEmails
+                  PolicyDocument:
+                    Statement:
+                        Effect: Allow
+                        Action:
+                            - "ses:SendEmail"
+                            - "ses:SendRawEmail"
+                        Resource: "*"
+                        Condition:
+                            StringEquals:
+                                "ses:FromAddress":
+                                    Ref: EmailFrom
+    Lambda:
+        Type: AWS::Lambda::Function
+        Properties:
+            Code:
+                S3Bucket:
+                    Ref: DeployBucket
+                S3Key:
+                    "Fn::Join":
+                        - "/"
+                        -
+                            - sendEmailLambda
+                            - artifact.zip
+            Description: Send email using SES
+            Handler: index.handler
+            MemorySize: 128
+            Role:
+                "Fn::GetAtt": ["ExecutionRole", "Arn"]
+            Runtime: nodejs4.3
+            Timeout: 60

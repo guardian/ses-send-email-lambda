@@ -1,0 +1,32 @@
+{
+  "name": "ses-send-email-lambda",
+  "projectName": "cms-fronts::send-email-lambda",
+  "description": "Send email using SES",
+  "version": "1.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "main": "src/index.js",
+  "scripts": {
+    "pretest": "gulp lint",
+    "test": "gulp compile && tap test",
+    "deploy": "gulp deploy"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.3.16",
+    "babel-preset-es2015-rollup": "^1.1.1",
+    "exec-chainable": "0.0.3",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-yaml": "^1.0.1",
+    "gulp-zip": "^3.2.0",
+    "node-riffraff-artefact": "^1.7.2",
+    "rollup": "^0.26.3",
+    "rollup-plugin-babel": "^2.4.0",
+    "rollup-plugin-commonjs": "^2.2.1",
+    "rollup-plugin-node-resolve": "^1.5.0",
+    "tap": "^5.7.2"
+  },
+  "peerDependencies": {
+    "aws-sdk": "2.x"
+  }
+}
