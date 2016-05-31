@@ -2,6 +2,7 @@
   "name": "ses-send-email-lambda",
   "projectName": "cms-fronts::send-email-lambda",
   "description": "Send email using SES",
+  "repository": "https://github.com/guardian/ses-send-email-lambda",
   "version": "1.0.0",
   "private": true,
   "license": "Apache-2.0",

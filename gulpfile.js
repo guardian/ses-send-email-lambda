@@ -61,7 +61,7 @@ gulp.task('archive', ['compile', 'riffraff-deploy'], function () {
 	return gulp.src('tmp/lambda/**/*')
 		.pipe(zip('artifact.zip'))
 		.pipe(gulp.dest('tmp/riffraff/packages/lambda'))
-		.pipe(gulp.dest('tmp/riffraff/packages/static'));
+		.pipe(gulp.dest('tmp/riffraff/packages/sendEmailLambda'));
 });
 
 gulp.task('package', ['archive'], function () {

@@ -4,7 +4,7 @@ packages:
     sendEmailLambda:
         type: aws-s3
         data:
-            bucket: lambda-boilerplate-dist
+            bucket: facia-dist
             cacheControl: "public, max-age=315360000"
             prefixPackage: true
             prefixStack: false
