@@ -1,0 +1,13 @@
+regions: [eu-west-1]
+stacks: [cms-fronts]
+
+deployments:
+  sendEmailLambda:
+    type: aws-lambda
+    contentDirectory: sendEmailLambda
+    parameters:
+      bucket: facia-dist
+      functions:
+        PROD:
+          name: send-email-lambda-Lambda-K6KFP5O8NU99
+          filename: sendEmailLambda.zip
