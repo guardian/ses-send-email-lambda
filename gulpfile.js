@@ -59,9 +59,7 @@ gulp.task('dev', ['lint-dev', 'cloudformation-dev', 'compile-dev', 'riffraff-dep
 gulp.task('deploy', ['compile'], function (cb) {
 	riffraff.settings.leadDir = path.join(__dirname, 'tmp/');
 
-	riffraff.s3FilesUpload().then(function () {
-		cb();
-	}).catch(function (error) {
-		cb(error);
-	});
+	riffraff.s3FilesUpload()
+	.then(cb)
+	.catch(cb)
 });
