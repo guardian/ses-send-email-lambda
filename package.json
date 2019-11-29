@@ -12,16 +12,17 @@
   "riffraffFile": "./riff-raff.yaml",
   "main": "src/index.js",
   "scripts": {
-    "pretest": "gulp lint",
-    "test": "gulp compile && tap test",
-    "deploy": "gulp deploy && VERBOSE=true ARTEFACT_PATH=$PWD riffraff-artefact"
+    "pretest": "npm run lint",
+    "lint": "eslint src test",
+    "lint-fix": "eslint --fix src test",
+    "compile": "rollup -c rollup.config.js",
+    "test": "npm run compile && tap test",
+    "deploy": "VERBOSE=true ARTEFACT_PATH=$PWD riffraff-artefact"
   },
   "devDependencies": {
     "aws-sdk": "^2.3.16",
     "babel-preset-es2015-rollup": "^1.1.1",
-    "exec-chainable": "0.0.3",
-    "gulp": "^3.9.1",
-    "gulp-eslint": "^2.0.0",
+    "eslint": "^6.7.1",
     "node-riffraff-artefact": "^2.0.1",
     "rollup": "^0.26.3",
     "rollup-plugin-alias": "^1.2.0",
