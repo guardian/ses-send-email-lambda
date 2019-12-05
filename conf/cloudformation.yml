@@ -69,5 +69,5 @@ Resources:
             MemorySize: 128
             Role:
                 "Fn::GetAtt": ["ExecutionRole", "Arn"]
-            Runtime: nodejs8.10
+            Runtime: nodejs12.x
             Timeout: 60
