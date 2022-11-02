@@ -1,3 +1,5 @@
+## 2/11/2022: this repository has been archived and the stack has been deleted
+
 Send email using SES
 
 ### Usage
